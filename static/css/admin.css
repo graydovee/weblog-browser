@@ -35,4 +35,10 @@
   color: white;
   font-size: 16px;
   margin-top: 1vh;
+  border: 2px solid #2a2f35;
+  cursor: pointer;
+}
+
+.admin-btn:hover{
+  background-color: #52565b;
 }

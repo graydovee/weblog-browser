@@ -18,7 +18,13 @@
 
 <script>
 export default {
-  name: 'admin'
+  name: 'admin',
+  inject: ['show'],
+  provide () {
+    return {
+      show: this.show
+    }
+  }
 }
 </script>
 
