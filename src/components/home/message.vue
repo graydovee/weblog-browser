@@ -87,6 +87,9 @@ export default {
         this.$axios.post(this.$host('/admin/auth'), this.$qs.stringify(data)).then(res => {
           if (parseInt(res.data.code) === 200) {
             this.$parent.show('修改成功')
+            this.user.birth = data.birthTime
+            this.sex = data.sex
+            localStorage.user = JSON.stringify(this.user)
           } else {
             this.$parent.show('修改失败', false)
           }
