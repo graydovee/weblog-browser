@@ -5,6 +5,7 @@ import login from '@/components/admin/login'
 import register from '@/components/admin/register'
 import visit from '@/components/visit/visit'
 import home from '@/components/home/home'
+import attachments from '@/components/visit/attachments'
 
 Vue.use(Router)
 
@@ -40,7 +41,14 @@ export default new Router({
     {
       path: '/visit',
       name: 'visit',
-      component: visit
+      component: visit,
+      children: [
+        {
+          path: 'attachments',
+          name: 'attachments',
+          component: attachments
+        }
+      ]
     }
   ]
 })

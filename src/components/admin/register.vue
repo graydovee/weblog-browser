@@ -68,10 +68,11 @@ export default {
           nickname: this.nickname
         }
 
-        this.$axios.post('http://localhost:8083/auth', this.$qs.stringify(data))
+        this.$axios.post(this.$host('/auth'), this.$qs.stringify(data))
           .then(res => {
             if (parseInt(res.data.code) === 200) {
               this.show('注册成功')
+              this.$router.push({name: 'login'})
             } else {
               this.show('注册失败', false)
             }

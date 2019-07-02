@@ -38,15 +38,31 @@ export default {
   inject: ['show'],
   methods: {
     login () {
+      if (!(this.username && this.password)) {
+        this.show('请完整填写信息', false)
+        return
+      }
       let data = {
         username: this.username,
         password: this.password
       }
-      this.$axios.post('http://localhost:8083/auth/login', this.$qs.stringify(data)).then(res => {
+      this.$axios.post(this.$host('/auth/login'), this.$qs.stringify(data)).then(res => {
         let token = res.headers.token
         localStorage.token = token
         this.$axios.defaults.headers.common['Authorization'] = token
-        this.show('登录成功')
+        this.$axios.get(this.$host('/admin/auth')).then(res => {
+          if (parseInt(res.data.code) === 200) {
+            let data = res.data
+            if (data.data) {
+              localStorage.user = data.data
+              this.show('登录成功')
+              this.$router.push({name: 'home'})
+            }
+          }
+        }).catch(err => {
+          console.log(err)
+          this.show('登录失败', false)
+        })
       }).catch(err => {
         console.log(err)
         this.show('登录失败', false)
