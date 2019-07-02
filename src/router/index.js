@@ -12,10 +12,6 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      redirect: {name: 'admin'}
-    },
-    {
       path: '/admin',
       name: 'admin',
       component: admin,

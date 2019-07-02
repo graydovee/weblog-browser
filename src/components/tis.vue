@@ -1,7 +1,7 @@
 <template>
   <div class="box" v-if="isShow">
-    <img src="../assets/success.png" alt="" class="img" v-show="flag===true">
-    <img src="../assets/error.png" alt="" class="img" v-show="flag===false">
+    <img src="../assets/img/success.png" alt="" class="img" v-show="flag===true">
+    <img src="../assets/img/error.png" alt="" class="img" v-show="flag===false">
     <div class="msg">{{msg}}</div>
   </div>
 </template>

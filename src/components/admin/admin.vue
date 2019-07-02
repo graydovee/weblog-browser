@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .bg{
-  background-image: url("../../assets/bg.jpg");
+  background-image: url("../../assets/img/bg.jpg");
   background-size: cover;
   position: absolute;
   top: 0;

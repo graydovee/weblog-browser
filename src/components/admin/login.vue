@@ -4,7 +4,7 @@
 
       <div class="input-line">
         <div class="prefix">
-          <img src="../../assets/admin/username.png" alt="">
+          <img src="../../assets/img/admin/username.png" alt="">
         </div>
         <div class="input-box">
           <input type="text" name="username" placeholder="用户名" v-model="username">
@@ -13,7 +13,7 @@
 
       <div class="input-line">
         <div class="prefix">
-          <img src="../../assets/admin/password.png" alt="">
+          <img src="../../assets/img/admin/password.png" alt="">
         </div>
         <div class="input-box">
           <input type="password" name="password" placeholder="密码" v-model="password">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import '@/../static/css/admin.css'
+import '@/./assets/css/admin.css'
 
 export default {
   name: 'login',
@@ -54,7 +54,7 @@ export default {
           if (parseInt(res.data.code) === 200) {
             let data = res.data
             if (data.data) {
-              localStorage.user = data.data
+              localStorage.user = JSON.stringify(data.data)
               this.show('登录成功')
               this.$router.push({name: 'home'})
             }

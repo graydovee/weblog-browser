@@ -16,6 +16,20 @@ Vue.prototype.$host = function (url) {
   return host + url
 }
 
+Vue.filter('dateFormat', (dataStr) => {
+  let time = new Date(dataStr)
+  function timeAdd0 (str) {
+    if (str < 10) {
+      str = 0 + str
+    }
+    return str
+  }
+  let y = time.getFullYear()
+  let m = time.getMonth() + 1
+  let d = time.getDate()
+  return y + '-' + timeAdd0(m) + '-' + timeAdd0(d)
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -31,12 +45,15 @@ new Vue({
         if (parseInt(res.data.code) === 200) {
           let data = res.data
           if (data.data) {
-            localStorage.user = data.data
+            localStorage.user = JSON.stringify(data.data)
             this.$router.push({name: 'home'})
+            return
           }
         }
+        this.$router.push({name: 'login'})
       }).catch(err => {
         console.log(err)
+        this.$router.push({name: 'login'})
       })
     }
   }
