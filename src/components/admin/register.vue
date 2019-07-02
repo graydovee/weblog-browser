@@ -7,7 +7,7 @@
           <img src="../../assets/img/admin/username.png" alt="">
         </div>
         <div class="input-box">
-          <input type="text" name="username" placeholder="用户名" v-model="username">
+          <input type="text" name="username" placeholder="用户名" v-model="username" @change="checkUsername">
         </div>
       </div>
 
@@ -51,36 +51,57 @@ export default {
       username: '',
       nickname: '',
       password: '',
-      repeat: ''
+      repeat: '',
+      check: ''
     }
   },
   inject: ['show'],
   methods: {
-    register () {
-      if (!(this.username && this.password && this.nickname && this.repeat)) {
-        this.show('请完整填写信息', false)
-      } else if (this.password !== this.repeat) {
-        this.show('两次密码不一致', false)
+    checkOk () {
+      if (parseInt(this.check) === 501) {
+        this.show('用户名已存在', false)
+      } else if (parseInt(this.check) === 200) {
+        this.show('用户名合法')
+        return true
       } else {
-        let data = {
-          username: this.username,
-          password: this.password,
-          nickname: this.nickname
-        }
+        this.show('服务器繁忙', false)
+      }
+      return false
+    },
+    checkUsername (ev) {
+      let username = ev.target.value
+      this.$axios.get(this.$host('/auth?username=' + username)).then(res => {
+        this.check = res.data.code
+        this.checkOk()
+      })
+    },
+    register () {
+      if (this.checkOk()) {
+        if (!(this.username && this.password && this.nickname && this.repeat)) {
+          this.show('请完整填写信息', false)
+        } else if (this.password !== this.repeat) {
+          this.show('两次密码不一致', false)
+        } else {
+          let data = {
+            username: this.username,
+            password: this.password,
+            nickname: this.nickname
+          }
 
-        this.$axios.post(this.$host('/auth'), this.$qs.stringify(data))
-          .then(res => {
-            if (parseInt(res.data.code) === 200) {
-              this.show('注册成功')
-              this.$router.push({name: 'login'})
-            } else {
+          this.$axios.post(this.$host('/auth'), this.$qs.stringify(data))
+            .then(res => {
+              if (parseInt(res.data.code) === 200) {
+                this.show('注册成功')
+                this.$router.push({name: 'login'})
+              } else {
+                this.show('注册失败', false)
+              }
+            })
+            .catch(err => {
+              console.error(err)
               this.show('注册失败', false)
-            }
-          })
-          .catch(err => {
-            console.error(err)
-            this.show('注册失败', false)
-          })
+            })
+        }
       }
     }
   }

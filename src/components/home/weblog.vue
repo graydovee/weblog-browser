@@ -85,7 +85,7 @@ export default {
     position: relative;
     float: left;
     width: 6vw ;
-    left: 42vw;
+    left: 40vw;
     top: 3vh;
   }
   .like div{
