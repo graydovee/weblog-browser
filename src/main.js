@@ -46,17 +46,25 @@ new Vue({
           let data = res.data
           if (data.data) {
             localStorage.user = JSON.stringify(data.data)
-            this.$router.push({name: 'home'})
+            if (!this.$route.path.startsWith('/visit')) {
+              this.$router.push({name: 'home'})
+            }
             return
           }
         }
-        this.$router.push({name: 'login'})
+        if (!this.$route.path.startsWith('/visit')) {
+          this.$router.push({name: 'login'})
+        }
       }).catch(err => {
         console.log(err)
-        this.$router.push({name: 'login'})
+        if (!this.$route.path.startsWith('/visit')) {
+          this.$router.push({name: 'login'})
+        }
       })
     } else {
-      this.$router.push({name: 'login'})
+      if (!this.$route.path.startsWith('/visit')) {
+        this.$router.push({name: 'login'})
+      }
     }
   }
 })

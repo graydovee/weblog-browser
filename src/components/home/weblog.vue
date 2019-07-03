@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="like">
-        <div>
+        <div @click.once="dolike">
           <img src="../../assets/img/like.png" alt="">
         </div>
         <p>点赞数：{{like.length}}</p>
@@ -29,9 +29,32 @@ export default {
     }
   },
   props: ['blog'],
+  methods: {
+    dolike () {
+      let data = {
+        blogId: this.blog.blogId
+      }
+      this.$axios.post(this.$host('/admin/like'), this.$qs.stringify(data)).then(res => {
+        if (res.data.code === 200) {
+          this.$parent.show('点赞成功')
+          this.like.push(JSON.parse(localStorage.user))
+        } else {
+          this.$parent.show('不要重复点哟！', false)
+        }
+      }).catch(err => {
+        console.log(err)
+        if (err.response.status && err.response.status === 403) {
+          this.$parent.show('请先登录', false)
+          this.$router.push({name: 'login'})
+        } else {
+          this.$parent.show('不要重复点哟！', false)
+        }
+      })
+    }
+  },
   mounted () {
     this.content = JSON.parse(this.blog.content)
-    this.$axios.get(this.$host('/user?userId=' + this.blog.userId)).then(res => {
+    this.$axios.get(this.$host('/user?id=' + this.blog.userId)).then(res => {
       if (parseInt(res.data.code) === 200) {
         this.user = res.data.data
         if (typeof this.user.profilePicture === 'undefined' || this.user.profilePicture == null || this.user.profilePicture === '') {
@@ -94,6 +117,7 @@ export default {
     margin: 0 2vw;
     border-radius: 50%;
     background-color: #ff5e2f;
+    cursor: pointer;
   }
   .like div img{
     width: 2vw;

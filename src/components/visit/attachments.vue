@@ -1,5 +1,8 @@
 <template>
-    <div></div>
+    <div>
+      attachment
+      {{$route.query.id}}
+    </div>
 </template>
 
 <script>

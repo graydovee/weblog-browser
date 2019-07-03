@@ -6,6 +6,7 @@ import register from '@/components/admin/register'
 import visit from '@/components/visit/visit'
 import home from '@/components/home/home'
 import attachments from '@/components/visit/attachments'
+import details from '@/components/visit/details'
 
 Vue.use(Router)
 
@@ -38,11 +39,17 @@ export default new Router({
       path: '/visit',
       name: 'visit',
       component: visit,
+      redirect: {name: 'details'},
       children: [
         {
           path: 'attachments',
           name: 'attachments',
           component: attachments
+        },
+        {
+          path: 'details',
+          name: 'details',
+          component: details
         }
       ]
     }

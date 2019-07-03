@@ -12,13 +12,13 @@
       <blog :blog="b"></blog>
     </div>
     <div id="message">
-      <message :blogNumber="blogs.length"></message>
+      <profile :blogNumber="blogs.length"></profile>
     </div>
   </div>
 </template>
 
 <script>
-import message from '@/components/home/message'
+import profile from '@/components/home/profile'
 import inputs from '@/components/home/inputs'
 import blog from '@/components/home/weblog'
 
@@ -31,7 +31,7 @@ export default {
   },
   inject: ['show'],
   components: {
-    message,
+    profile,
     inputs,
     blog
   },
@@ -42,7 +42,7 @@ export default {
       if (userStr) {
         this.user = JSON.parse(userStr)
 
-        this.$axios.get(this.$host('/blog?userId=' + this.user.userId)).then(res => {
+        this.$axios.get(this.$host('/blog?id=' + this.user.userId)).then(res => {
           if (parseInt(res.data.code) === 200) {
             this.blogs = res.data.data
           }
@@ -58,7 +58,7 @@ export default {
 
 <style scoped>
   .bg{
-    background-image: url("../../assets/img/bg.jpg");
+    background-image: url("/static/img/bg.jpg");
     background-size: cover;
     position: fixed;
     top: 0;
