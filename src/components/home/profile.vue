@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import message from '@/components/home/message'
+import message from '@/components/message'
 
 export default {
   name: 'profile',

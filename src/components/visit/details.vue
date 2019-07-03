@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import message from '@/components/home/message'
-import blog from '@/components/home/weblog'
+import message from '@/components/message'
+import blog from '@/components/weblog'
 
 export default {
   name: 'details',

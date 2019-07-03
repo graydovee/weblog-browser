@@ -2,7 +2,7 @@
     <div>
       <div class="like">
         <div @click.once="dolike">
-          <img src="../../assets/img/like.png" alt="">
+          <img src="../assets/img/like.png" alt="">
         </div>
         <p>点赞数：{{like.length}}</p>
       </div>

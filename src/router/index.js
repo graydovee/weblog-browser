@@ -5,8 +5,10 @@ import login from '@/components/admin/login'
 import register from '@/components/admin/register'
 import visit from '@/components/visit/visit'
 import home from '@/components/home/home'
-import attachments from '@/components/visit/attachments'
+import visitAattachments from '@/components/visit/visit-attachments'
 import details from '@/components/visit/details'
+import page from '@/components/home/details'
+import homeAttachments from '@/components/home/home-attachments'
 
 Vue.use(Router)
 
@@ -33,7 +35,20 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: home
+      component: home,
+      redirect: {name: 'page'},
+      children: [
+        {
+          path: 'page',
+          name: 'page',
+          component: page
+        },
+        {
+          path: 'attachments',
+          name: 'home_attachments',
+          component: homeAttachments
+        }
+      ]
     },
     {
       path: '/visit',
@@ -42,9 +57,9 @@ export default new Router({
       redirect: {name: 'details'},
       children: [
         {
-          path: 'attachments',
-          name: 'attachments',
-          component: attachments
+          path: 'visit_attachments',
+          name: 'visit_attachments',
+          component: visitAattachments
         },
         {
           path: 'details',

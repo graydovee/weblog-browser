@@ -5,7 +5,7 @@
         <img :src="user_v.profilePicture" alt="">
       </div>
       <div class="nickname label">{{user_v.nickname}}</div>
-      <div class="sign label">{{user_v.sign ? user.sign : '想说点什么哟~'}}</div>
+      <div class="sign label">{{user_v.sign ? user_v.sign : '想说点什么哟~'}}</div>
       <div class="msg">
         <div class="msg-box">
           <p class="msg-content label">{{fans_v.length}}</p>
