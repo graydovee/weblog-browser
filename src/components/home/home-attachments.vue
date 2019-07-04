@@ -2,7 +2,7 @@
   <div>
     <div class="main">
       <div class="content">
-        <img :src="user.profilePicture" alt="" class="pic">
+        <img :src="user.profilePicture" alt="" class="pic" @click="goto">
         <div class="msg">
           <div class="info">
             <p class="num">{{fans.length}}</p>
@@ -35,6 +35,13 @@ export default {
       fans: [],
       focused: [],
       user: {}
+    }
+  },
+  methods: {
+    goto () {
+      this.$router.push({
+        name: 'home'
+      })
     }
   },
   provide () {
@@ -86,6 +93,7 @@ export default {
   .pic{
     width: 100%;
     height: 25vh;
+    cursor: pointer;
   }
   .msg{
     height: 9vh;
