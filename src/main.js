@@ -12,7 +12,7 @@ Vue.prototype.$qs = qs
 Vue.prototype.$axios = axios
 
 Vue.prototype.$host = function (url) {
-  const host = 'http://10.30.90.15:8083'
+  const host = 'http://h-weblog.graydove.cn'
   return host + url
 }
 
@@ -53,16 +53,19 @@ new Vue({
           }
         }
         if (!this.$route.path.startsWith('/visit')) {
+          this.$axios.defaults.headers.common['Authorization'] = ''
           this.$router.push({name: 'login'})
         }
       }).catch(err => {
         console.log(err)
         if (!this.$route.path.startsWith('/visit')) {
+          this.$axios.defaults.headers.common['Authorization'] = ''
           this.$router.push({name: 'login'})
         }
       })
     } else {
       if (!this.$route.path.startsWith('/visit')) {
+        this.$axios.defaults.headers.common['Authorization'] = ''
         this.$router.push({name: 'login'})
       }
     }

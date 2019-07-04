@@ -7,7 +7,7 @@
           <img src="../../assets/img/admin/username.png" alt="">
         </div>
         <div class="input-box">
-          <input type="text" name="username" placeholder="用户名" v-model="username" @change="checkUsername">
+          <input type="text" name="username" placeholder="用户名" v-model="username" @blur="checkUsername">
         </div>
       </div>
 
@@ -73,6 +73,9 @@ export default {
       this.$axios.get(this.$host('/auth?username=' + username)).then(res => {
         this.check = res.data.code
         this.checkOk()
+      }).catch(err => {
+        console.log(err)
+        this.show('错误代码：' + err.response.status, false)
       })
     },
     register () {

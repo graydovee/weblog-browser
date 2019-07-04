@@ -30,6 +30,22 @@ export default {
   },
   props: ['blog'],
   methods: {
+    update () {
+      this.content = JSON.parse(this.blog.content)
+      this.$axios.get(this.$host('/user?id=' + this.blog.userId)).then(res => {
+        if (parseInt(res.data.code) === 200) {
+          this.user = res.data.data
+          if (typeof this.user.profilePicture === 'undefined' || this.user.profilePicture == null || this.user.profilePicture === '') {
+            this.user.profilePicture = '/static/img/default_profile_picture.jpg'
+          }
+        }
+      })
+      this.$axios.get(this.$host('/like?blogId=' + this.blog.blogId)).then(res => {
+        if (parseInt(res.data.code) === 200) {
+          this.like = res.data.data
+        }
+      })
+    },
     dolike () {
       let data = {
         blogId: this.blog.blogId
@@ -53,20 +69,12 @@ export default {
     }
   },
   mounted () {
-    this.content = JSON.parse(this.blog.content)
-    this.$axios.get(this.$host('/user?id=' + this.blog.userId)).then(res => {
-      if (parseInt(res.data.code) === 200) {
-        this.user = res.data.data
-        if (typeof this.user.profilePicture === 'undefined' || this.user.profilePicture == null || this.user.profilePicture === '') {
-          this.user.profilePicture = '/static/img/default_profile_picture.jpg'
-        }
-      }
-    })
-    this.$axios.get(this.$host('/like?blogId=' + this.blog.blogId)).then(res => {
-      if (parseInt(res.data.code) === 200) {
-        this.like = res.data.data
-      }
-    })
+    this.update()
+  },
+  watch: {
+    blog () {
+      this.update()
+    }
   }
 }
 </script>

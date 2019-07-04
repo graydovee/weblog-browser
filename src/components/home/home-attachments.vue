@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import attachments from '@/components/attachments'
+import attachments from '@/components/attachments/attachments'
 export default {
   name: 'home-attachments',
   inject: ['show'],
@@ -35,6 +35,11 @@ export default {
       fans: [],
       focused: [],
       user: {}
+    }
+  },
+  provide () {
+    return {
+      show: this.show
     }
   },
   mounted () {

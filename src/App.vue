@@ -11,7 +11,7 @@ import tis from '@/components/tis'
 export default {
   name: 'App',
   components: {
-    tis: tis
+    tis
   },
   provide () {
     return {

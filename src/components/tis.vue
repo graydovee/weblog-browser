@@ -40,6 +40,7 @@ export default {
   left: 44vw;
   top: 10vh;
   display: flex;
+  z-index: 99;
 }
 
 .img{

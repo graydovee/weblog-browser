@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <upload v-if="upload_show"></upload>
+    <showImage v-if="url!==''" :url="url"></showImage>
     <div class="box">
       <div class="main">
         <p class="title">附件库</p>
@@ -8,32 +11,58 @@
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
-import file from '@/components/file'
+import file from '@/components/attachments/file'
+import upload from '@/components/attachments/upload'
+import showImage from '@/components/attachments/showImage'
+
 export default {
   name: 'attachments',
   data () {
     return {
       items: [],
-      user: {}
+      upload_show: false,
+      url: ''
     }
   },
   components: {
-    file
+    file,
+    upload,
+    showImage
   },
-  props: ['admin'],
-  mounted () {
-    let userStr = localStorage.user
-    if (userStr) {
-      this.user = JSON.parse(userStr)
-    }
-    this.$axios.get(this.$host('/file?id=' + this.user.userId)).then(res => {
-      if (res.data.code === 200) {
-        this.items = res.data.data
+  methods: {
+    openUpload () {
+      this.upload_show = !this.upload_show
+    },
+    openShow (url = '') {
+      if (this.url === '') {
+        this.url = url
+      } else {
+        this.url = ''
       }
-    })
+    },
+    updateItem () {
+      this.$axios.get(this.$host('/file?id=' + this.user.userId)).then(res => {
+        if (res.data.code === 200) {
+          this.items = res.data.data
+        }
+      })
+    }
+  },
+  props: ['admin', 'user'],
+  inject: ['show'],
+  provide () {
+    return {
+      show: this.show
+    }
+  },
+  watch: {
+    user () {
+      this.updateItem()
+    }
   }
 }
 </script>

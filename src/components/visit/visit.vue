@@ -1,7 +1,7 @@
 <template>
   <div >
     <div id="bg-head">
-      <div class="profile-picture">
+      <div class="profile-picture" @click="goto">
         <img :src="user_v.profilePicture" alt="">
       </div>
       <div class="nickname label">{{user_v.nickname}}</div>
@@ -23,7 +23,7 @@
       <div class="focus label" @click="focused">{{focus_status === 1 ? '关注' : '已关注'}}</div>
     </div>
     <div id="bg-bottom"></div>
-    <router-view :focused_v="focused_v" :user_v="user_v" :blogs_v="blogs_v"></router-view>
+    <router-view :focused_v="focused_v" :user="user_v" :blogs_v="blogs_v"></router-view>
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
   methods: {
     goto () {
       this.$router.push({
-        name: 'attachments',
+        name: 'details',
         query: {
           id: this.$route.query.id
         }
@@ -98,33 +98,40 @@ export default {
           })
         }
       })
+    },
+    updateAll () {
+      this.update()
+      this.$axios.get(this.$host('/admin/auth')).then(res => {
+        if (res.data.code === 200) {
+          let user = res.data.data
+          if (user.userId === this.$route.query.id) {
+            return
+          }
+          this.$axios.get(this.$host('/focus?id=' + user.userId)).then(res2 => {
+            if (parseInt(res2.data.code) === 200) {
+              let users = res2.data.data
+              this.focus_status = 1
+              for (let i = 0; i < users.length; ++i) {
+                if (parseInt(users[i].userId) === parseInt(this.$route.query.id)) {
+                  this.focus_status = 0
+                  return
+                }
+              }
+            }
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   mounted () {
-    this.update()
-    this.$axios.get(this.$host('/admin/auth')).then(res => {
-      if (res.data.code === 200) {
-        let user = res.data.data
-        if (user.userId === this.$route.query.id) {
-          return
-        }
-        this.$axios.get(this.$host('/focus?id=' + user.userId)).then(res2 => {
-          if (parseInt(res2.data.code) === 200) {
-            let users = res2.data.data
-            this.focus_status = 1
-
-            for (let i = 0; i < users.length; ++i) {
-              if (users[i].userId === this.$route.query.id) {
-                this.focus_status = 0
-                return
-              }
-            }
-          }
-        })
-      }
-    }).catch(err => {
-      console.log(err)
-    })
+    this.updateAll()
+  },
+  watch: {
+    $route () {
+      this.updateAll()
+    }
   }
 }
 </script>
@@ -152,6 +159,7 @@ export default {
     border-radius: 50%;
     top: 4vh;
     left: 46vw;
+    cursor: pointer;
   }
   .profile-picture img{
     border-radius: 50%;

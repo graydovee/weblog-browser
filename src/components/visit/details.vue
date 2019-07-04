@@ -2,12 +2,12 @@
     <div>
       <div class="main">
         <div class="msg">
-          <message :focused="focused_v" :user="user_v"></message>
+          <message :focused="focused_v" :user="user"></message>
         </div>
         <div class="blog">
           <div class="content" id="title">
             <p style="border-right: 1px solid #778464">全部文章</p>
-            <p>附件库</p>
+            <p @click="goto">附件库</p>
           </div>
           <div class="content" id="blog" v-for="(b,i) in blogs_v" :key="i" >
             <blog :blog="b"></blog>
@@ -28,11 +28,19 @@ export default {
     blog
   },
   methods: {
+    goto () {
+      this.$router.push({
+        name: 'attachments',
+        query: {
+          id: this.$route.query.id
+        }
+      })
+    },
     show (msg, flag) {
       this.$parent.show(msg, flag)
     }
   },
-  props: ['focused_v', 'user_v', 'blogs_v']
+  props: ['focused_v', 'user', 'blogs_v']
 }
 </script>
 

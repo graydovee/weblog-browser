@@ -5,7 +5,7 @@ import login from '@/components/admin/login'
 import register from '@/components/admin/register'
 import visit from '@/components/visit/visit'
 import home from '@/components/home/home'
-import visitAattachments from '@/components/visit/visit-attachments'
+import attachments from '@/components/attachments/attachments'
 import details from '@/components/visit/details'
 import page from '@/components/home/details'
 import homeAttachments from '@/components/home/home-attachments'
@@ -57,9 +57,9 @@ export default new Router({
       redirect: {name: 'details'},
       children: [
         {
-          path: 'visit_attachments',
-          name: 'visit_attachments',
-          component: visitAattachments
+          path: 'attachments',
+          name: 'attachments',
+          component: attachments
         },
         {
           path: 'details',
